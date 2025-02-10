@@ -6,7 +6,7 @@
 Click **Fork** (top-right) to create your copy of this repo. Then, clone your forked repo and navigate into the project directory:  
 
 ```bash
-cd NRH
+cd NRH-bot
 ```
 
 ### Set up the environment (macOS/Linux)

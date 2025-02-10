@@ -35,12 +35,35 @@ def fetch_hospital_info(user_query):
     """Extracts relevant hospital information based on user input."""
     response = []
     query_lower = user_query.lower()
+    response = []
 
-    # General Services Query
-    if "service" in query_lower:
-        all_services = {service for dept in nrh_data.get("departments", {}).values() for service in dept.get("services", [])}
-        if all_services:
-            response.append(f"We offer a range of medical services including: {', '.join(all_services)}.")
+    # Define mapping of query keywords to their respective data extraction logic
+    query_map = {
+        "service": lambda: {service for dept in nrh_data.get("departments", {}).values() for service in dept.get("services", [])},
+        "phone": lambda: nrh_data.get("hospital_info", {}).get("contact", {}),
+        "contact": lambda: nrh_data.get("hospital_info", {}).get("contact", {}),
+        "location": lambda: nrh_data.get("hospital_info", {}).get("location", "Not available"),
+        "values": lambda: nrh_data.get("hospital_info", {}).get("values", ["Not available"]),
+        "mission": lambda: nrh_data.get("hospital_info", {}).get("values", ["Not available"]),
+        "insurance": lambda: nrh_data.get("insurance_partners", ["Not available"]),
+        "NHIF": lambda: nrh_data.get("insurance_partners", ["Not available"]),
+        "payment": lambda: nrh_data.get("payment_methods", ["Not available"]),
+        "facility": lambda: nrh_data.get("facilities", {}),
+        "facilities": lambda: nrh_data.get("facilities", {}),
+        "visiting": lambda: nrh_data.get("visiting_hours", {}),
+        "visiting hours": lambda: nrh_data.get("visiting_hours", {}),
+    }
+
+    # Check for general queries in user input
+    for keyword, data_extractor in query_map.items():
+        if keyword in query_lower:
+            data = data_extractor()
+            if isinstance(data, dict):
+                response.extend([f"{key.capitalize()}: {value}" for key, value in data.items()])
+            elif isinstance(data, list):
+                response.append(", ".join(data))
+            else:
+                response.append(str(data))
 
     # Department-Specific Queries
     for department, details in nrh_data.get("departments", {}).items():
@@ -69,7 +92,7 @@ def fetch_hospital_info(user_query):
 
     if "facility" in query_lower or "facilities" in query_lower:
         facilities = nrh_data.get("facilities", {})
-        response.append(f"🛏 Beds: {facilities.get('beds', 'Not available')}")
+        response.append(f"🛏 Beds: {facilitieys.get('beds', 'Not available')}")
         response.append(f"🚑 Ambulances: {facilities.get('ambulances', 'Not available')}")
         response.append(f"💊 Pharmacy: {facilities.get('pharmacy', 'Not available')}")
         response.append(f"📡 Radiology: {', '.join(facilities.get('radiology', []))}")

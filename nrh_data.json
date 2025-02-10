@@ -38,8 +38,8 @@
     "online_portal": "www.nrh.co.ke/appointments",
     "call_center": "+254 712 345 678"
   },
-  "insurance_partners": ["NHIF", "SHA", "AAR", "UAP", "Britam"],
-  "payment_methods": ["Private Insurance", "Mobile Payments", "Bank Transfers", "Cash"],
+  "insurance_partners": ["NHIF", "SHA", "AAR", "UAP", "Britam", "ICE Lion"],
+  "payment_methods": ["Private Insurance", "Mobile Payments", "Bank Transfers", "Cash", "Mpesa", "Airtel Money"],
   "facilities": {
     "beds": 500,
     "ambulances": 5,
